@@ -219,3 +219,12 @@ output =
   rerun(10000, sim_regression(beta1 = 0)) %>%
   bind_rows()
 ```
+
+The first 10 rows of this simulated dataset of β1 = 0 can be seen here:
+
+```{r}
+head(output, n = 10) %>%
+  janitor::clean_names() %>%
+  knitr::kable(digits = 3, caption = "First 10 Rows of Simulation Regression for β1 = 0") %>%
+  kable_styling(bootstrap_options = c("striped", "condensed", font_size = 12))
+```
