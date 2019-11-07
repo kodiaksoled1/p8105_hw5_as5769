@@ -146,3 +146,15 @@ df =
    ) %>%
   rename(Group = arm)
 ```
+
+My first graph I made allows you to see the two study groups on the same graph. We can see the differences between the two study arms by the two colors: 
+
+```{r}
+ggplot(df, aes(x = week, y = observation, group = subject_id, color = Group)) + 
+  geom_path() +
+  labs(
+    title = "Observation of Each Study Subject over Eight Weeks By Study Group",
+    x = "Week",
+    y = "Observation",
+    caption = "Data from HW 5 Problem 2 Zip File")
+```
