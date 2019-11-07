@@ -92,3 +92,16 @@ head(output, n = 30) %>%
   knitr::kable(digits = 1, caption = "Iris Dataset (First 30 Observations)") %>%
   kable_styling(bootstrap_options = c("striped", "condensed", font_size = 12))
 ```
+
+## Problem 2
+
+#### Load in Data files
+
+In order to create a tidy dataframe containing data from all participants, including the subject ID, arm, and observations over time, I first loaded in the 20 seperate datafiles using `list.files` (created a dataframe with the file names):
+
+```{r}
+study_data_2 = 
+  list.files(path = "./data_hw5", full.names = FALSE) %>%
+  tibble::enframe(name = NULL)
+study_data_2
+```
