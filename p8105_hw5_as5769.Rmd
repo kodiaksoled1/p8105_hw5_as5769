@@ -31,3 +31,18 @@ scale_fill_discrete = scale_fill_viridis_d
 
 theme_set(theme_minimal() + theme(legend.position = "bottom"))
 ```
+
+## Problem 1
+
+#### Read in Data
+
+First, I read in the missing data. 
+
+```{r loading in missing dataset}
+set.seed(10)
+
+iris_with_missing = 
+  iris %>% 
+  map_df(~replace(.x, sample(1:150, 20), NA)) %>%
+  mutate(Species = as.character(Species))
+```
