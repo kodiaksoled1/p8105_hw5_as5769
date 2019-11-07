@@ -71,3 +71,13 @@ tidy_iris = function(x) {
   
 }
 ```
+
+#### Create a Map Statement
+
+Then, I applied this function to the `iris_with_missing` dataset using a `map` statement and `bind_rows` in order to combine the 5 datasets into a single one:
+
+```{r write a map statement, warning = FALSE}
+output = 
+  map(iris_with_missing, tidy_iris) %>%
+  bind_rows()
+```
