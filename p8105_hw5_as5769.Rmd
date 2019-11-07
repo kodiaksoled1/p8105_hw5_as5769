@@ -1,0 +1,7 @@
+---
+title: "Homework 5"
+author: "Kodiak Soled"
+date: "11/2/2019"
+output: github_document
+always_allow_html: yes
+---
