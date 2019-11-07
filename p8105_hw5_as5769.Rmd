@@ -81,3 +81,14 @@ output =
   map(iris_with_missing, tidy_iris) %>%
   bind_rows()
 ```
+
+#### Table of New Iris Data
+
+Here is a reader-friendly table the first 30 observations of the replaced iris dataset:
+
+```{r resulting table}
+head(output, n = 30) %>%
+  janitor::clean_names() %>%
+  knitr::kable(digits = 1, caption = "Iris Dataset (First 30 Observations)") %>%
+  kable_styling(bootstrap_options = c("striped", "condensed", font_size = 12))
+```
