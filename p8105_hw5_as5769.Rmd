@@ -105,3 +105,22 @@ study_data_2 =
   tibble::enframe(name = NULL)
 study_data_2
 ```
+
+#### Create Tidy Dataframe
+
+Then, I iterated over the file names and read in the data (`read_csv`) for each of the 20 subjects (from 20 strings to 1 string using `str_c`) using `purrr::map` (and saving the result as a new variable in the dataframe). I then `unnest`ed the variable "data" so I could see the measurements for each subject across the eight weeks. I then tidied the dataset so that there were `seperate` variables for study group (control vs. experimental) and subject id and removed the ".csv" in the name using `mutate` and `str_replace`. Finally, I put the dataframe into a reader-friendly table using `knitr::kable` and made sure all the measurements were rounded to 2 decimal places using `digits = 2`.
+
+```{r write using map, message = FALSE}
+df_study_data_2 = 
+  study_data_2 %>%
+  mutate(
+    data = map(value, ~read_csv(str_c("./data_hw5/", .x)))
+  ) %>%
+  unnest(cols = data) %>%
+  separate(value, into = c("arm", "subject_id"), sep = "_") %>%
+  mutate(subject_id = str_replace(subject_id, ".csv", ""))
+df_study_data_2 %>%
+  knitr::kable(digits = 2, caption = "Tidy Study Dataframe") %>%
+  kable_styling(bootstrap_options = c("striped", "condensed", font_size = 12))
+
+```
