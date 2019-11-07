@@ -158,3 +158,16 @@ ggplot(df, aes(x = week, y = observation, group = subject_id, color = Group)) +
     y = "Observation",
     caption = "Data from HW 5 Problem 2 Zip File")
 ```
+
+My second graph stratified the two study groups using `facet_grid`. In this graph we can see each of the 20 study participants as well as the differences between the two study groups:
+
+```{r}
+ggplot(df, aes(x = week, y = observation, group = subject_id, color = subject_id)) + 
+  geom_line() + 
+  facet_grid(~Group) +
+  labs(
+    title = "Observation of Each Study Subject over Eight Weeks By Study Group",
+    x = "Week",
+    y = "Observation",
+    caption = "Data from HW 5 Problem 2 Zip File")
+```
