@@ -228,3 +228,29 @@ head(output, n = 10) %>%
   knitr::kable(digits = 3, caption = "First 10 Rows of Simulation Regression for β1 = 0") %>%
   kable_styling(bootstrap_options = c("striped", "condensed", font_size = 12))
 ```
+
+#### Generate 10,0000 Datasets for β1 = {0, 1, 2, 3, 4, 5, 6}
+
+I then repeated the above for β1 = {1, 2, 3, 4, 5, 6} by creating a `tibble` for each β1 value and used `map` to allow the function "sim_regression" to `rerun` 10,000 for each β1 value (.x = beta1). I again had to `bind_rows` to make the list into a massive dataset, and `unnest` the "output_df" variable to see all the values for each β1. Finally, I removed the "output_list" function to make the dataframe contain only the variables I needed:    
+
+```{r}
+sim_results = 
+  tibble(
+    beta1 = c(0, 1, 2, 3, 4, 5, 6)
+    ) %>% 
+  mutate(
+    output_list = map(.x = beta1, ~ rerun(10000, sim_regression(beta1 = .x))),
+    output_df = map(output_list, bind_rows)
+    ) %>%
+  unnest(output_df) %>%
+  select(-output_list)
+```
+
+The first 10 rows of this simulated dataset of β1 = {0, 1, 2, 3, 4, 5, 6} can be seen here:
+
+```{r}
+head(sim_results, n = 10) %>%
+  janitor::clean_names() %>%
+  knitr::kable(digits = 3, caption = "First 10 Rows of Simulation Regression for β1 = {0, 1, 2, 3, 4, 5, 6}") %>%
+  kable_styling(bootstrap_options = c("striped", "condensed", font_size = 12))
+```
