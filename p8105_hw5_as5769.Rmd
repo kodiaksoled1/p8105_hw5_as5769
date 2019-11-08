@@ -288,9 +288,9 @@ ggplot(null_sim_results, aes(x = beta1, y = power, fill = beta1)) +
 
 When a sample size is fixed (as in this example), as the effect size increases so does the power. This is visually displayed as a positive association between β1 and power. 
 
-#### Plot #2
+#### Plots #2 & #3
 
-To show the average estimate of β̂1 on the y axis and the true value of β1 on the x axis I made a line plot. I did this by using `group_by` to organize the data by values of β1, taking the mean or average of each estimate using `summarize`, then using `geom_point` and `geom_line` within `ggplot` to create the graph:
+To show the average estimate of β̂1 on the y axis and the true value of β1 on the x axis I made a line plot. I did this by using `group_by` to organize the data by values of β1, taking the mean or average of each estimate using `summarize`, then using `geom_point` and `geom_line` within `ggplot` to create the graph (see visualization below under the combined or overlayed graphs):
 
 ```{r message = FALSE}
 entire_sample = 
@@ -309,9 +309,7 @@ plot_entire =
   )
 ```
 
-#### Plot #3
-
-To show the the average estimate of β̂1 *only in samples for which the null was rejected* on the y axis and the true value of β1 on the x axis I also used a line graph:
+To show the the average estimate of β̂1 *only in samples for which the null was rejected* on the y axis and the true value of β1 on the x axis I also used a line graph (see visualization below under the combined or overlayed graphs):
 
 ```{r message = FALSE}
 null_rejected_sample = 
