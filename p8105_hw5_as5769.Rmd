@@ -308,3 +308,55 @@ plot_entire =
     y = "Average Est. of β̂1"
   )
 ```
+
+#### Plot #3
+
+To show the the average estimate of β̂1 *only in samples for which the null was rejected* on the y axis and the true value of β1 on the x axis I also used a line graph:
+
+```{r message = FALSE}
+null_rejected_sample = 
+  sim_results %>%
+  janitor::clean_names() %>%
+  filter(p_value < 0.05) %>%
+  group_by(beta1) %>%
+  summarize(mean_estimate = mean(estimate))
+
+plot_null = 
+  ggplot(null_rejected_sample, aes(x = beta1, y = mean_estimate)) + 
+  geom_point(color = "green") + 
+  geom_line(color = "green") + 
+  labs(
+    title = "True Value of β1 vs. Average Est. \nof β̂1 for Rejected Nulls",
+    x = "True Value of β1",
+    y = "Average Est. of β̂1 among the Rejected Nulls"
+  )
+```
+
+I then made a graph to show the plots of the two samples side by side. The `patchwork` library was loaded in at the beginning of this document so we can just combine (+) the two graph titles here to display the plots side by side:
+
+```{r}
+plot_entire + plot_null
+```
+
+My second graph shows the two samples overlayed ontop of one another. This one required more steps, but allows the viewer to better visualize the difference of the mean estimates between the two samples. I was able to do this by joining the two samples using `full_join`. Then I applied `geom_point` and `geom_line` to the mean estimate of each sample to make my combined `ggplot`: 
+
+```{r overlaying graphs}
+combined_data = 
+  full_join(entire_sample, null_rejected_sample, by = "beta1") %>%
+  janitor::clean_names()
+
+ggplot(combined_data, aes(x = beta1)) + 
+  geom_point(aes(y = mean_estimate_x), color = "blue") +
+  geom_line(aes(y = mean_estimate_x), color = "blue") + 
+  geom_point(aes(y = mean_estimate_y), color = "green") +
+  geom_line(aes(y = mean_estimate_y), color = "green") +
+  labs(
+    title = "Sample average of β̂1 across tests for which the null is rejected \noverlayed with sample average of β̂1 across all tests",
+    x = "True Value of β1",
+    y = "Average Estimate"
+  )
+```
+
+#### Answering if the Average of β̂1 across Tests is Approximately Equal Across the Two Samples
+
+The sample average of β̂1 across tests for which the null is rejected (the green line) becomes approximately equal to the true value of β1 (the blue line) the closer it gets to β1 = 6 (from β1  = 1) because the effect size is largest when β1 = 6. The larger the effect size becomes, the more of the rejected nulls/p-values will be included in the sample and thus the mean estimates will become more similar to the true value of β1 (i.e., increased effect size = increased power).
