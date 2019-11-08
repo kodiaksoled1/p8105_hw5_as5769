@@ -287,3 +287,24 @@ ggplot(null_sim_results, aes(x = beta1, y = power, fill = beta1)) +
 #### Description of the Association Between Effect Size and Power
 
 When a sample size is fixed (as in this example), as the effect size increases so does the power. This is visually displayed as a positive association between β1 and power. 
+
+#### Plot #2
+
+To show the average estimate of β̂1 on the y axis and the true value of β1 on the x axis I made a line plot. I did this by using `group_by` to organize the data by values of β1, taking the mean or average of each estimate using `summarize`, then using `geom_point` and `geom_line` within `ggplot` to create the graph:
+
+```{r message = FALSE}
+entire_sample = 
+  sim_results %>%
+  group_by(beta1) %>%
+  summarize(mean_estimate = mean(estimate))
+
+plot_entire = 
+  ggplot(entire_sample, aes(x = beta1, y = mean_estimate)) + 
+  geom_point(color = "blue") + 
+  geom_line(color = "blue") +
+  labs(
+    title = "True Value of β1 vs. Average Est. \nof β̂1 for Entire Sample",
+    x = "True Value of β1",
+    y = "Average Est. of β̂1"
+  )
+```
